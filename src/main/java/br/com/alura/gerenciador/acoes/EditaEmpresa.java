@@ -1,4 +1,4 @@
-package br.com.alura.gerenciador.servlet;
+package br.com.alura.gerenciador.acoes;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -6,23 +6,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/editaEmpresa")
-public class editaEmpresa extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+import br.com.alura.gerenciador.modelo.Banco;
+import br.com.alura.gerenciador.modelo.Empresa;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String nome = request.getParameter("nome");
-		String empresaId = request.getParameter("id");
+public class EditaEmpresa implements Acao {
+	public void executa(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String nome = req.getParameter("nome");
+		String empresaId = req.getParameter("id");
 		Integer id = Integer.valueOf(empresaId);
 
 		Date d = null;
 		try {
-			String data = request.getParameter("data");
+			String data = req.getParameter("data");
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			d = sdf.parse(data);
 		} catch (ParseException e) {
@@ -34,8 +32,5 @@ public class editaEmpresa extends HttpServlet {
 
 		empresa.setNome(nome);
 		empresa.setData(d);
-
-		response.sendRedirect("listaEmpresas");
 	}
-
 }
